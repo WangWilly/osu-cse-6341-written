@@ -1,0 +1,68 @@
+Assignment 1
+
+================================================================================
+Q1: (apply rightmost derivation; always expands the rightmost non-terminal)
+int y = z + x; int x = z;
+--------------------------------------------------------------------------------
+Grammar:
+
+<program> ::= <stmtList>
+
+<stmtList> ::= <stmt> <stmtList>
+| <stmt>
+
+<stmt> ::= <varDecl> = <expr> ;
+| ident = <expr> ;
+
+<varDecl> ::= int ident
+
+<expr> ::= intconst
+| ident
+| <expr> + <expr>
+--------------------------------------------------------------------------------
+
+My answer:
+<program>
+=> <stmtList>
+=> <stmt> <stmtList>
+=> <stmt> <stmt>
+=> <stmt> <varDecl> = <expr> ;
+=> <stmt> <varDecl> = ident_z ;
+=> <stmt> int ident_x = ident_z ;
+=> <varDecl> = <expr> ; int ident_x = ident_z ;
+=> <varDecl> = <expr> + <expr> ; int ident_x = ident_z ;
+=> <varDecl> = <expr> + ident_x ; int ident_x = ident_z ;
+=> <varDecl> = ident_z + ident_x ; int ident_x = ident_z ;
+=> int ident_y = ident_z + ident_x ; int ident_x = ident_z ;
+
+================================================================================
+Q2:
+Consider the grammar from Q1, with the following modifications:
+<stmt> ::= <varDecl> ; | <varDecl> = <expr> ; | ident = <expr> ;
+<varDecl> ::= int ident | float ident
+<expr> ::= intconst | floatconst | ident | <expr> + <expr>
+
+    Part1: Consider some parse tree for
+    int b = x + y + z; float c = b;
+
+    My answer:
+    Tree1:
+    ((((int) (ident_b)) (=) (((ident_x) (+) (ident_y)) (+) (ident_z)) (;)) (((float) (ident_c)) (=) (ident_b) (;)))
+    Tree2:
+    ((((int) (ident_b)) (=) ((ident_x) (+) ((ident_y) (+) (ident_z))) (;)) (((float) (ident_c)) (=) (ident_b) (;)))
+
+    How many nodes are in this parse tree?
+    25
+
+    How many of these nodes are leaf nodes?
+    14
+
+    Part2: This grammer is ambiguous. Explain whether/how this affects your answer for Part1.
+
+    My answer:
+    The expression can be parsed in two different ways. The parse tree can have multiple valid interpretations,
+    might leading to different result values. The different result values may come from the computation order of the
+    expression. i.e. the order of the addition operation of floating numbers.
+
+================================================================================
+Q3:
