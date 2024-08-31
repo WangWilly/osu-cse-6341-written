@@ -66,3 +66,40 @@ Consider the grammar from Q1, with the following modifications:
 
 ================================================================================
 Q3:
+
+    Part1: Consider the following program:
+    ```
+    int b = x + y + z; float c = b;
+    ```
+    For each of these 11 classes, show how many instances (i.e., objects) of this class exist in
+    the AST for this program.
+
+    My answer:
+    Consider the AST:
+        - Program: 1
+        - StmtList: 2
+        - Stmt: 2
+        - IntVarDecl: 1
+        - FloatVarDecl: 1
+        - Expr: 2
+        - IdentExpr: 4
+    => 1 + 2 + 2 + 1 + 1 + 2 + 4 = 13
+
+    Part2: Show the subtree of the AST corresponding to expression x + y + z. When showing each
+    AST node, label it with the corresponding Java class name (for the non-abstract class of AST
+    node). Based on the shape of this AST subtree, discuss whether the parser provided to you in
+    Project 1 uses left-associativity or right-associativity for operator +.
+
+    My answer:
+
+    Subtree:
+        ```
+                    <PlusExpr>
+                    /         \
+                <PlusExpr>  <IdentExpr>
+                /        \
+        <IdentExpr>   <IdentExpr>
+        ```
+    
+    The subtree shows that the parser uses left-associativity for operator +. => ((x + y) + z)
+    
